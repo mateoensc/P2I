@@ -26,12 +26,16 @@ X, Y, Z = zip(origin, origin, origin)
 print(X)
 U, V, W = zip(p0, p1, p2)
 print(U)
+
 fig = plt.figure()
 # Crée le plan de la figure en mode 3D
 ax = fig.add_subplot(111, projection='3d')
 # Need matplotlib
 # Plot a 2D/3D field of arrow X,Y,Z defines the arrow location
 # U,V,W defines the arrow direction [C] define the color
-
-ax.quiver(X, Y, Z, U, V, W, arrow_length_ratio=0.01)
+# Create a translation
+U1, V1, W1 = zip(origin+t, origin+t, origin+t)
+ax.quiver(X, Y, Z, U, V, W, color="red",
+          arrow_length_ratio=0.01)
+ax.quiver(U1, V1, W1, U, V, W, color="blue", arrow_length_ratio=0.01)
 plt.show()
