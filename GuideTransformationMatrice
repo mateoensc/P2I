@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from pytransform3d.plot_utils import make_3d_axis
 from pytransform3d.transform_manager import TransformManager
 from scipy.spatial.transform import Rotation
+from mpl_toolkits import mplot3d
 print(sys.version)
 
 TB2A = np.eye(4)
