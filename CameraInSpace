@@ -33,12 +33,13 @@ def Matrice_Rotation_3D_X(teta):
 # Matrice de rotation autour axe y
 
 
-def Matrice_Rotation_3D_Y(teta):
+def matrice_rotation_3D_Y(teta):
+    teta = math.radians(teta)
     return np.array([[math.cos(teta), 0, math.sin(teta), 0], [0, 1, 0, 0], [-math.sin(teta), 0, math.cos(teta), 0], [0, 0, 0, 1]])
 # Matrice de rotation autour axe z
 
 
-def Matrice_Rotation_3D_Z(teta):
+def matrice_rotation_3D_Z(teta):
     return np.array([[math.cos(teta), -math.sin(teta), 0, 0], [math.sin(teta), math.cos(teta), 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 # Matrice de Translation
 
@@ -47,23 +48,43 @@ def matrice_translation_3D(Tx, Ty, Tz):
     return np.array([[1, 0, 0, Tx], [0, 1, 0, Ty], [0, 0, 1, Tz], [0, 0, 0, 1]])
 
 
-origin = [0, 0, 0]
+origine = [0, 0, 0]
 # Zip function iterator of tuples qui associe les éléments à la suite X devient (0,0,0)
 # Concatène les tableaux possiblement
-X, Y, Z = zip(origin, origin, origin)
+X, Y, Z = zip(origine, origine, origine)
 print(X)
 U, V, W = zip(p0, p1, p2)
 print(U)
-
-fig = plt.figure()
+Pmonde = np.array([3, 0, -2, 1])
+# Teta in degree
+Ry = matrice_rotation_3D_Y(20)
+print("Ry :",Ry)
+T = matrice_translation_3D(5, 0, 21)
+# Coordonnées de l'origine référentiel monde
+monde = np.array([5, 0, 21,1])
+print(monde.shape)
+monderotation = Ry*monde
+Pcamera = T*Ry*Pmonde
+#fig = plt.figure()
 # Crée le plan de la figure en mode 3D
-ax = fig.add_subplot(111, projection='3d')
+#ax = fig.add_subplot(111, projection='3d')
 # Need matplotlib
 # Plot a 2D/3D field of arrow X,Y,Z defines the arrow location
 # U,V,W defines the arrow direction [C] define the color
 # Create a translation
-U1, V1, W1 = zip(origin+t, origin+t, origin+t)
+# U1, V1, W1 = zip(origine+t, origine+t, origine+t)
+# ax.quiver(X, Y, Z, U, V, W, color="red",
+#           arrow_length_ratio=0.01)
+# ax.quiver(U1, V1, W1, U, V, W, color="blue", arrow_length_ratio=0.01)
+
+fig1 = plt.figure()
+ax = fig1.add_subplot(111, projection='3d')
+X, Y, Z = zip(monde[0:3], monde[0:3], monde[0:3])
+U, V, W = zip(monderotation[0][0:3], monderotation[1][0:3], monderotation[2][0:3])
+print("Monde rotation : ",monderotation[0][0:3])
+U2, V2, W2 = zip(p0, p1, p2)
+U1, V1, W1 = zip(origine, origine, origine)
 ax.quiver(X, Y, Z, U, V, W, color="red",
-          arrow_length_ratio=0.01)
-ax.quiver(U1, V1, W1, U, V, W, color="blue", arrow_length_ratio=0.01)
+          arrow_length_ratio=0.1 )
+ax.quiver(U1, V1, W1, U2, V2, W2, color="blue", arrow_length_ratio=0.1)
 plt.show()
