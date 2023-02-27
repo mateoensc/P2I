@@ -2,6 +2,7 @@ from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
+import math
 # get axis unit vector from dcm rows
 # def get_vector_from_dcm(dcm, axis, o, label, color):
 #     """
@@ -18,6 +19,33 @@ t = np. array([3, -4, 2])
 p0 = [1, 0, 0]
 p1 = [0, 1, 0]
 p2 = [0, 0, 1]
+# Matrice de rotation R
+
+
+def Matrice_Rotation_2D(teta):
+    return np.array([[math.cos(teta), -math.sin(teta)], [math.sin(teta), math.cos(teta)]])
+
+# Matrice de rotation 3D autour de l'axe x
+
+
+def Matrice_Rotation_3D_X(teta):
+    return np.array([[1, 0, 0, 0], [0, math.cos(teta), -math.sin(teta), 0], [0, math.sin(teta), math.cos(teta), 0], [0, 0, 0, 1]])
+# Matrice de rotation autour axe y
+
+
+def Matrice_Rotation_3D_Y(teta):
+    return np.array([[math.cos(teta), 0, math.sin(teta), 0], [0, 1, 0, 0], [-math.sin(teta), 0, math.cos(teta), 0], [0, 0, 0, 1]])
+# Matrice de rotation autour axe z
+
+
+def Matrice_Rotation_3D_Z(teta):
+    return np.array([[math.cos(teta), -math.sin(teta), 0, 0], [math.sin(teta), math.cos(teta), 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+# Matrice de Translation
+
+
+def matrice_translation_3D(Tx, Ty, Tz):
+    return np.array([[1, 0, 0, Tx], [0, 1, 0, Ty], [0, 0, 1, Tz], [0, 0, 0, 1]])
+
 
 origin = [0, 0, 0]
 # Zip function iterator of tuples qui associe les éléments à la suite X devient (0,0,0)
