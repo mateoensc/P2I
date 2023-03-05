@@ -109,4 +109,8 @@ ax.quiver(X, Y, Z, U, V, W, color="red",
           arrow_length_ratio=0.01 )
 # Référentiel de la caméra
 ax.quiver(U1, V1, W1, U2, V2, W2, color="blue", arrow_length_ratio=0.01)
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+
 plt.show()
