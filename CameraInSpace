@@ -109,9 +109,12 @@ ax.quiver(X, Y, Z, U, V, W, color="red",
           arrow_length_ratio=0.01 )
 # Référentiel de la caméra
 ax.quiver(U1, V1, W1, U2, V2, W2, color="blue", arrow_length_ratio=0.01)
-# Add surface
-# ax.plot_surface(xx)
+# Add view vector
+print("ICI",[U1[0],U2[0]],[V1[1],V2[1]],[W1[2],W2[2]])
 
+ax.plot([U1[0],U2[0]],[V1[1],V2[1]],[W1[2],W2[2]],"g-")
+ax.plot([X[0],U[0]+X[0]],[Y[1],V[1]+Y[1]],[Z[2],W[2]+Z[2]],"g-")
+print("ICI2",[X[0],U[0]],[Y[1],V[1]],[Z[2],W[2]])
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
