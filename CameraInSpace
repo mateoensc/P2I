@@ -98,25 +98,51 @@ ax = fig.add_subplot(111,projection='3d')
 # set limit
 ax.set(xlim=(-5, 5), ylim=(-5, 5), zlim=(0, 20))
 
+# Monde
+#############
+# Référentiel du monde
 
 X, Y, Z = zip(monde[0:3], monde[0:3], monde[0:3])
+print("X",X)
 U, V, W = zip(monderotationx[0:3],monderotationy[0:3], monderotationz[0:3])
 #print("Monde rotation : ",monderotation[0][0:3])
-U2, V2, W2 = zip(p0, p1, p2)
-U1, V1, W1 = zip(origine, origine, origine)
-# Référentiel du monde
 ax.quiver(X, Y, Z, U, V, W, color="red",
           arrow_length_ratio=0.01 )
+ax.plot([X[0],U[0]+X[0]+10],[Y[1],V[1]+Y[1]+10],[Z[2],W[2]+Z[2]+10],"g-")
+
+# Caméra 1
+######
+U2, V2, W2 = zip(p0, p1, p2)
+U1, V1, W1 = zip(origine, origine, origine)
 # Référentiel de la caméra
 ax.quiver(U1, V1, W1, U2, V2, W2, color="blue", arrow_length_ratio=0.01)
 # Add view vector
 print("ICI",[U1[0],U2[0]],[V1[1],V2[1]],[W1[2],W2[2]])
 
-ax.plot([U1[0],U2[0]],[V1[1],V2[1]],[W1[2],W2[2]],"g-")
-ax.plot([X[0],U[0]+X[0]],[Y[1],V[1]+Y[1]],[Z[2],W[2]+Z[2]],"g-")
-print("ICI2",[X[0],U[0]],[Y[1],V[1]],[Z[2],W[2]])
+ax.plot([U1[0],U2[0]+10],[V1[1],V2[1]+10],[W1[2],W2[2]+10],"g-")
+# Caméra 2 
+T2 = matrice_translation_3D(5,5,5)
+C2 = np.dot(T2,np.array([0,0,0,1]))
+X2, Y2, Z2 = zip(C2[0:3], C2[0:3], C2[0:3])
+X2p, Y2p, Z2p = zip(C2[0:3]+[1,0,0], C2[0:3]+[0,1,0], C2[0:3]+[0,0,1])
+ax.quiver(X2, Y2, Z2, X2p, Y2p, Z2p, color="blue", arrow_length_ratio=0.01)
+# Caméra 3 
+T3 = matrice_translation_3D(4,1,5)
+C3 = np.dot(T2,np.array([0,0,0,1]))
+# Caméra 4 
+T2 = matrice_translation_3D(2,0,1)
+C2 = np.dot(T2,np.array([0,0,0,1]))
+# Add a line occluder
+xo = [-5,5]
+yo = [-5,5]
+zo = [0,5]
+occluder = xo+yo+zo
+ax.plot(xo,yo,zo,"-k")
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
-
+# Questionnements : 
+# Comment connaître quand l'occluder rencontre un axe de vision caméra égalité entre equations de droites ? 
+# Comment comptabiliser les sections d'angles occludés : Sommer les angles de projection entre deux caméras Beta
+# Essayer de mettre en place plusieurs caméras et vecteurs de vision les croiser et tenter la fonction de coût
 plt.show()
