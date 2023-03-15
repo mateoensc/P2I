@@ -150,10 +150,18 @@ xo = [-5,5]
 yo = [-5,5]
 zo = [0,5]
 occluder = xo+yo+zo
-ax.plot(xo,yo,zo,"-k")
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
+def fun(x, y):
+    return -x + y
+xs = ys =  np.arange(0, 5, 1)
+Xs, Ys = np.meshgrid(xs, ys)
+zs = np.array(fun(np.ravel(Xs), np.ravel(Ys)))
+Zs = zs.reshape(Xs.shape)
+print("X:",Xs,"size(X)",np.shape((Xs)))
+print(np.shape([0,5]))
+ax.plot_surface(Xs, Ys, Zs)
 # Questionnements : 
 # Comment connaître quand l'occluder rencontre un axe de vision caméra égalité entre equations de droites ? 
 # Comment comptabiliser les sections d'angles occludés : Sommer les angles de projection entre deux caméras Beta
