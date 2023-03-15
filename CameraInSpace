@@ -96,7 +96,7 @@ fig = plt.figure(figsize=(6, 4))
 ax = fig.add_subplot(111,projection='3d')
 
 # set limit
-ax.set(xlim=(-5, 5), ylim=(-5, 5), zlim=(0, 20))
+ax.set(xlim=(-10, 10), ylim=(-10, 10), zlim=(0, 20))
 
 # Monde
 #############
@@ -119,19 +119,32 @@ ax.quiver(U1, V1, W1, U2, V2, W2, color="blue", arrow_length_ratio=0.01)
 # Add view vector
 print("ICI",[U1[0],U2[0]],[V1[1],V2[1]],[W1[2],W2[2]])
 
-ax.plot([U1[0],U2[0]+10],[V1[1],V2[1]+10],[W1[2],W2[2]+10],"g-")
+ax.plot([U1[0],U2[0]+5],[V1[1],V2[1]+5],[W1[2],W2[2]+5],"g-")
 # Caméra 2 
 T2 = matrice_translation_3D(5,5,5)
 C2 = np.dot(T2,np.array([0,0,0,1]))
 X2, Y2, Z2 = zip(C2[0:3], C2[0:3], C2[0:3])
-X2p, Y2p, Z2p = zip(C2[0:3]+[1,0,0], C2[0:3]+[0,1,0], C2[0:3]+[0,0,1])
+X2p, Y2p, Z2p =  zip(p0, p1, p2)
+# Ne pas oublier que le deuxième triplet indique la direction des flêches dans le ax.quiver
 ax.quiver(X2, Y2, Z2, X2p, Y2p, Z2p, color="blue", arrow_length_ratio=0.01)
+ax.plot([X2[0],X2p[0]+5],[Y2[1],Y2p[1]+5],[Z2[2],Z2p[2]+5],"g-")
+
 # Caméra 3 
 T3 = matrice_translation_3D(4,1,5)
-C3 = np.dot(T2,np.array([0,0,0,1]))
+C3 = np.dot(T3,np.array([0,0,0,1]))
+X3, Y3, Z3 = zip(C3[0:3], C3[0:3], C3[0:3])
+X3p, Y3p, Z3p =  zip(p0, p1, p2)
+# Ne pas oublier que le deuxième triplet indique la direction des flêches dans le ax.quiver
+ax.quiver(X3, Y3, Z3, X3p, Y3p, Z3p, color="blue", arrow_length_ratio=0.01)
+ax.plot([X3[0],X3p[0]+5],[Y3[1],Y3p[1]+5],[Z3[2],Z3p[2]+5],"g-")
 # Caméra 4 
-T2 = matrice_translation_3D(2,0,1)
-C2 = np.dot(T2,np.array([0,0,0,1]))
+T4 = matrice_translation_3D(2,0,1)
+C4 = np.dot(T4,np.array([0,0,0,1]))
+X4, Y4, Z4 = zip(C4[0:3], C4[0:3], C4[0:3])
+X4p, Y4p, Z4p =  zip(p0, p1, p2)
+# Ne pas oublier que le deuxième triplet indique la direction des flêches dans le ax.quiver
+ax.quiver(X4, Y4, Z4, X4p, Y4p, Z4p, color="blue", arrow_length_ratio=0.01)
+ax.plot([X4[0],X4p[0]+5],[Y4[1],Y4p[1]+5],[Z4[2],Z4p[2]+5],"g-")
 # Add a line occluder
 xo = [-5,5]
 yo = [-5,5]
