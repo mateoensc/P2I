@@ -1,3 +1,5 @@
+# Code provenant de l'article suivant : 
+#https://towardsdatascience.com/the-one-stop-guide-for-transformation-matrices-cea8f609bdb1
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
