@@ -100,22 +100,22 @@ ax.set(xlim=(-10, 10), ylim=(-10, 10), zlim=(0, 20))
 
 # Monde
 #############
-# Référentiel du monde
+#Caméra 1
 
 X, Y, Z = zip(monde[0:3], monde[0:3], monde[0:3])
 print("X",X)
 U, V, W = zip(monderotationx[0:3],monderotationy[0:3], monderotationz[0:3])
 #print("Monde rotation : ",monderotation[0][0:3])
-ax.quiver(X, Y, Z, U, V, W, color="red",
+ax.quiver(X, Y, Z, U, V, W, color="blue",
           arrow_length_ratio=0.01 )
 ax.plot([X[0],U[0]+X[0]+10],[Y[1],V[1]+Y[1]+10],[Z[2],W[2]+Z[2]+10],"g-")
 
-# Caméra 1
+# Référentiel du monde
 ######
 U2, V2, W2 = zip(p0, p1, p2)
 U1, V1, W1 = zip(origine, origine, origine)
 # Référentiel de la caméra
-ax.quiver(U1, V1, W1, U2, V2, W2, color="blue", arrow_length_ratio=0.01)
+ax.quiver(U1, V1, W1, U2, V2, W2, color="red", arrow_length_ratio=0.01)
 # Add view vector
 print("ICI",[U1[0],U2[0]],[V1[1],V2[1]],[W1[2],W2[2]])
 
@@ -128,7 +128,8 @@ X2p, Y2p, Z2p =  zip(p0, p1, p2)
 # Ne pas oublier que le deuxième triplet indique la direction des flêches dans le ax.quiver
 ax.quiver(X2, Y2, Z2, X2p, Y2p, Z2p, color="blue", arrow_length_ratio=0.01)
 ax.plot([X2[0],X2p[0]+5],[Y2[1],Y2p[1]+5],[Z2[2],Z2p[2]+5],"g-")
-
+print("C2:",C2)
+print("Caméra 2 : ",X2,X2p)
 # Caméra 3 
 T3 = matrice_translation_3D(4,1,5)
 C3 = np.dot(T3,np.array([0,0,0,1]))
