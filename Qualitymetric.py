@@ -49,8 +49,12 @@ def point_on_line(p, v,origine):
     
     # Si le point p appartient à la droite engendrée par le vecteur
     # Si la valeur de t vérifie les 3 équations 
-    res = [t*u+uO, t*v+vO, t*w+wO]
-    return res == p
+    print("coefficient V*t",t)
+    if t <= 1:
+        res = [t*u+uO, t*v+vO, t*w+wO]
+        return res == p
+    else:
+        return False
 Ry = matrice_rotation_3D_Y(20)
 Rx = matrice_Rotation_3D_X(-20)
 T = matrice_translation_3D(5,5,5)
@@ -73,7 +77,7 @@ monderotationy =monderotationy/np.linalg.norm(monderotationy)
 monderotationz = monderotationz/np.linalg.norm(monderotationz)
 print("Vecteur rotation ",monderotationx,"y",monderotationy,"z",monderotationz)
 
-P1 = [7,7,7]
+P1 = [370,370,370]
 
 fig = plt.figure(figsize=(6, 4))
 ax = fig.add_subplot(111,projection='3d')
