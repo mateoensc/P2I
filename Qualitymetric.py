@@ -73,7 +73,7 @@ monderotationy =monderotationy/np.linalg.norm(monderotationy)
 monderotationz = monderotationz/np.linalg.norm(monderotationz)
 print("Vecteur rotation ",monderotationx,"y",monderotationy,"z",monderotationz)
 
-
+P1 = [7,7,7]
 
 fig = plt.figure(figsize=(6, 4))
 ax = fig.add_subplot(111,projection='3d')
@@ -96,6 +96,7 @@ U, V, W = zip(monderotationx[0:3],monderotationy[0:3], monderotationz[0:3])
 ax.quiver(X, Y, Z, U, V, W, color="blue",
           arrow_length_ratio=0.01 )
 ax.plot([X[0],U[0]+5],[Y[1],V[1]+5],[Z[2],W[2]+5],"g-")
+ax.scatter(P1[0],P1[1],P1[2],'o')
 plt.show()
 ####
 # Calcul de l'angle entre deux vecteurs caméra 1 et 2 
@@ -116,4 +117,4 @@ angle = math.degrees(math.acos(cos))
 print("angle in degree",angle)
 ##
 # Calcul de l'intersection entre 1 point et 1 vecteur
-P1 = [365,365,365]
+print("Croisement ? ",point_on_line(P1,V1,[5,5,5]))
