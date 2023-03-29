@@ -27,7 +27,30 @@ def matrice_rotation_3D_Z(teta):
 # Matrice de Translation
 def matrice_translation_3D(Tx, Ty, Tz):
     return np.array([[1, 0, 0, Tx], [0, 1, 0, Ty], [0, 0, 1, Tz], [0, 0, 0, 1]])
-
+def point_on_line(p, v,origine):
+    # On cherche à résoudre
+    # p = q + t*v
+    # Coordonnées du point
+    x, y, z = p
+    # Coordonnées du vecteur
+    u, v, w = v
+    # Coordonnées de l'origine du vecteur par rapport à la base canonique
+    uO,vO,wO = origine
+    # Vérification des valeurs nulles
+    if u != 0:
+        t = (x - uO) / u
+    elif v != 0:
+        t = (y - vO) / v
+    elif w != 0:
+        t = (z - wO) / w
+    else:
+        # Vecteur nul
+        return False
+    
+    # Si le point p appartient à la droite engendrée par le vecteur
+    # Si la valeur de t vérifie les 3 équations 
+    res = [t*u+uO, t*v+vO, t*w+wO]
+    return res == p
 Ry = matrice_rotation_3D_Y(20)
 Rx = matrice_Rotation_3D_X(-20)
 T = matrice_translation_3D(5,5,5)
@@ -73,12 +96,15 @@ U, V, W = zip(monderotationx[0:3],monderotationy[0:3], monderotationz[0:3])
 ax.quiver(X, Y, Z, U, V, W, color="blue",
           arrow_length_ratio=0.01 )
 ax.plot([X[0],U[0]+5],[Y[1],V[1]+5],[Z[2],W[2]+5],"g-")
-#plt.show()
+plt.show()
 ####
 # Calcul de l'angle entre deux vecteurs caméra 1 et 2 
-V1 = np.dot(5,p0)+np.dot(5,p1)+np.dot(5,p2)
+# Coordoonées du vecteur 1
+# 365 cm longueur du vecteur représentant la focale de la caméra
+
+V1 = np.dot(365,p0)+np.dot(365,p1)+np.dot(365,p2)
 print(V1)
-V2 = np.dot(5,monderotationx[0:3])+np.dot(5,monderotationy[0:3])+np.dot(5,monderotationz[0:3])
+V2 = np.dot(365,monderotationx[0:3])+np.dot(365,monderotationy[0:3])+np.dot(365,monderotationz[0:3])
 print(V2)
 # Calcul de l'angle entre ces deux vecteurs
 produitscalaire = np.dot(V1,V2)
@@ -88,3 +114,6 @@ normeV2 = LA.norm(V2,2)
 cos = produitscalaire/(normeV1*normeV2)
 angle = math.degrees(math.acos(cos))
 print("angle in degree",angle)
+##
+# Calcul de l'intersection entre 1 point et 1 vecteur
+P1 = [365,365,365]
