@@ -158,7 +158,7 @@ V1 = np.dot(365,p0)+np.dot(365,p1)+np.dot(365,p2)
 print(V1)
 V2 = np.dot(365,monderotationx[0:3])+np.dot(365,monderotationy[0:3])+np.dot(365,monderotationz[0:3])
 print(V2)
-
+## Quality metric
 # Calcul de l'intersection entre 1 point et 1 vecteur
 print("Croisement ? ",point_on_line(P1,V1,[5,5,5]))
 # Calcul de l'angle entre deux vecteur
