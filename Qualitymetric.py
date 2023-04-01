@@ -46,7 +46,7 @@ def point_on_line(p, v,origine):
     else:
         # Vecteur nul
         return False
-    
+
     # Si le point p appartient à la droite engendrée par le vecteur
     # Si la valeur de t vérifie les 3 équations 
     print("coefficient V*t",t)
@@ -55,6 +55,53 @@ def point_on_line(p, v,origine):
         return res == p
     else:
         return False
+def angle_between_vectors(V1,V2):
+# V1 et V2 coordoonées du vecteur dans leur bases respectives
+# Calcul de l'angle entre ces deux vecteurs
+    produitscalaire = np.dot(V1,V2)
+    print(produitscalaire)
+    normeV1 = LA.norm(V1,2)
+    normeV2 = LA.norm(V2,2)
+    cos = produitscalaire/(normeV1*normeV2)
+    angle = math.degrees(math.acos(cos))
+    if angle>=40 and angle <= 140:
+        print("angle in degree",angle)
+        return True
+    else:
+        print("L'angle ne respecte pas les conditions sur l'angle de convergence")
+        return False
+    ##
+def intersection_between_vectors(V1,V2,origine1,origine2):
+    # Coordoonées du vecteur V1
+    u1,v1,z1 = V1
+    # Coordonnées de l'origine du vecteur 1
+    u1_O,v1_O,z1_O = origine1
+    # Coordonnées du vecteur V2
+    u2,v2,z2 = V2
+   # Coordonnées de l'origine du vecteur 2 
+    u2_O,v2_O,z2_O = origine2
+    # Chaque vecteur peut engendrer une droite représenté sous la forme d'un système paramétrique
+    # Ex x = t*u1 + u1_O
+    # Avec t un coeff entre 0 et 1
+    # Ainsi on détermine si un point est commun avec les deux droites 
+    if u1!=u2:
+        t = abs((u1_O-u2_O)/(u1-u2))
+    elif v1!=v2:
+        t = abs((v1_O-v2_O)/(v1-v2))
+    elif z1!=z2:
+        t = abs((z1_O-z2_O)/(z1-z2))
+    else:
+        return False
+    if t<=1:
+        res1 = [t*u1+u1_O,t*v1+v1_O,t*z1+z1_O]
+        res2 = [t*u2+u2_O,t*v2+v2_O,t*z2+z2_O]
+        if res1 == res2:
+            print("Intersection entre les vecteurs",res1)
+            return res1
+        else:
+            print("Pas d'intersection")
+            return False
+
 Ry = matrice_rotation_3D_Y(20)
 Rx = matrice_Rotation_3D_X(-20)
 T = matrice_translation_3D(5,5,5)
@@ -76,8 +123,8 @@ monderotationx = monderotationx/np.linalg.norm(monderotationx)
 monderotationy =monderotationy/np.linalg.norm(monderotationy)
 monderotationz = monderotationz/np.linalg.norm(monderotationz)
 print("Vecteur rotation ",monderotationx,"y",monderotationy,"z",monderotationz)
-
-P1 = [370,370,370]
+# Point test 1
+P1 = [371,371,371]
 
 fig = plt.figure(figsize=(6, 4))
 ax = fig.add_subplot(111,projection='3d')
@@ -111,14 +158,10 @@ V1 = np.dot(365,p0)+np.dot(365,p1)+np.dot(365,p2)
 print(V1)
 V2 = np.dot(365,monderotationx[0:3])+np.dot(365,monderotationy[0:3])+np.dot(365,monderotationz[0:3])
 print(V2)
-# Calcul de l'angle entre ces deux vecteurs
-produitscalaire = np.dot(V1,V2)
-print(produitscalaire)
-normeV1 = LA.norm(V1,2)
-normeV2 = LA.norm(V2,2)
-cos = produitscalaire/(normeV1*normeV2)
-angle = math.degrees(math.acos(cos))
-print("angle in degree",angle)
-##
+
 # Calcul de l'intersection entre 1 point et 1 vecteur
 print("Croisement ? ",point_on_line(P1,V1,[5,5,5]))
+# Calcul de l'angle entre deux vecteur
+angle_between_vectors(V1,V2)
+# Détermination de l'intersection entre deux vecteur
+intersection_between_vectors(V1,V2,[5,5,5],[6,5,5])
