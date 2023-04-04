@@ -13,7 +13,7 @@ p1 = [0, 1, 0]
 p2 = [0, 0, 1]
 
 # Matrice de rotation 3D autour de l'axe x
-def matrice_Rotation_3D_X(teta):
+def matrice_rotation_3D_X(teta):
      teta = math.radians(teta)
      return np.array([[1, 0, 0, 0], [0, math.cos(teta), -math.sin(teta), 0], [0, math.sin(teta), math.cos(teta), 0], [0, 0, 0, 1]])
 # Matrice de rotation autour axe y
@@ -101,9 +101,35 @@ def intersection_between_vectors(V1,V2,origine1,origine2):
         else:
             print("Pas d'intersection")
             return False
-
+# Fonction permettant de réaliser une transformation géométrique par rapport au référentiel canonique
+# Retourne les coordonnées de l'origine de la nouvelle base ainsi que les coordonnées des vecteurs unitaires
+# rotation en degrés et translation en array 3D
+# axis en str pour déterminer selon quels axes
+def define_rotation_translation(angle,translation,axis):
+    if axis == "X":
+            monderotationx = np.dot(matrice_rotation_3D_X(angle),vecteurmondex)
+            monderotationy = np.dot(matrice_rotation_3D_X(angle),vecteurmondey)
+            monderotationz = np.dot(matrice_rotation_3D_X(angle),vecteurmondez)
+    if axis == "Y":
+            monderotationx = np.dot(matrice_rotation_3D_Y(angle),vecteurmondex)
+            monderotationy = np.dot(matrice_rotation_3D_Y(angle),vecteurmondey)
+            monderotationz = np.dot(matrice_rotation_3D_Y(angle),vecteurmondez)
+    if axis == "Z":
+            monderotationx = np.dot(matrice_rotation_3D_Z(angle),vecteurmondex)
+            monderotationy = np.dot(matrice_rotation_3D_Z(angle),vecteurmondey)
+            monderotationz = np.dot(matrice_rotation_3D_Z(angle),vecteurmondez)
+    else:
+        print("Veuillez saisir X, Y ou Z dans axis.")
+    origine = np.dot(matrice_translation_3D(translation[0],translation[1],translation[2]),[0,0,0,1])
+    return np.array([monderotationx,monderotationy,monderotationz,origine])
+# Création d'une classe représentant les caméras
+class Camera: 
+    def __init__(self,monderotationx,monderotationy,monderotationz,origine,):
+        self.origine = origine
+        self.vector = np.dot(365,monderotationx[0:3])+np.dot(365,monderotationy[0:3])+np.dot(365,monderotationz[0:3])
+        
 Ry = matrice_rotation_3D_Y(20)
-Rx = matrice_Rotation_3D_X(-20)
+Rx = matrice_rotation_3D_X(-20)
 T = matrice_translation_3D(5,5,5)
 # Camera 1
 # TR = np.dot(T,Ry)
@@ -120,7 +146,7 @@ monderotationy = np.dot(matrice_rotation_3D_Z(90),vecteurmondey)
 monderotationz = np.dot(matrice_rotation_3D_Z(90),vecteurmondez)
 # Test normalisation du vecteur 
 monderotationx = monderotationx/np.linalg.norm(monderotationx)
-monderotationy =monderotationy/np.linalg.norm(monderotationy)
+monderotationy = monderotationy/np.linalg.norm(monderotationy)
 monderotationz = monderotationz/np.linalg.norm(monderotationz)
 print("Vecteur rotation ",monderotationx,"y",monderotationy,"z",monderotationz)
 # Point test 1
