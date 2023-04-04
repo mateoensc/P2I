@@ -174,7 +174,7 @@ ax.quiver(X, Y, Z, U, V, W, color="blue",
           arrow_length_ratio=0.01 )
 ax.plot([X[0],U[0]+5],[Y[1],V[1]+5],[Z[2],W[2]+5],"g-")
 ax.scatter(P1[0],P1[1],P1[2],'o')
-plt.show()
+#plt.show()
 ####
 # Calcul de l'angle entre deux vecteurs caméra 1 et 2 
 # Coordoonées du vecteur 1
@@ -191,3 +191,11 @@ print("Croisement ? ",point_on_line(P1,V1,[5,5,5]))
 angle_between_vectors(V1,V2)
 # Détermination de l'intersection entre deux vecteur
 intersection_between_vectors(V1,V2,[5,5,5],[6,5,5])
+translation_one = [5,5,5]
+translation_two = [8,5,5]
+referential_one = define_rotation_translation(45,translation_one,"Z")
+referential_two = define_rotation_translation(-45,translation_two,"Z")
+print("Ref1",referential_one)
+print("Ref2",referential_two)
+camera_one = Camera(referential_one[0],referential_one[1],referential_one[2],referential_one[3])
+camera_two = Camera(referential_two[0],referential_two[1],referential_two[2],referential_two[3])
