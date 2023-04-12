@@ -65,7 +65,7 @@ def angle_between_vectors(v1,v2):
     cos = produitscalaire/(normev1*normev2)
     angle = math.degrees(math.acos(cos))
     if angle>=40 and angle <= 140:
-        print("angle in degree",angle)
+        print("angle between vectors in degree",angle)
         return True
     else:
         print("L'angle ne respecte pas les conditions sur l'angle de convergence")
@@ -120,6 +120,10 @@ def define_rotation_translation(angle,translation,axis):
             monderotationz = np.dot(matrice_rotation_3D_Z(angle),vecteurmondez)
     else:
         print("Veuillez saisir X, Y ou Z dans axis.")
+        # Normalisation des vecteurs
+    monderotationx = monderotationx/np.linalg.norm(monderotationx)
+    monderotationy =monderotationy/np.linalg.norm(monderotationy)
+    monderotationz = monderotationz/np.linalg.norm(monderotationz)
     origine = np.dot(matrice_translation_3D(translation[0],translation[1],translation[2]),[0,0,0,1])
     return np.array([monderotationx,monderotationy,monderotationz,origine])
 # Création d'une classe représentant les caméras
@@ -136,7 +140,7 @@ T = matrice_translation_3D(5,5,5)
 # print("TR:",TR)
 # C1 = np.dot(TR,origine)
 C1 = np.dot(T,origine)
-print(C1)
+#print(C1)
 
 # Camera 2
 PC2 = np.array([6,5,5,1])
@@ -148,9 +152,9 @@ Monderotationz = np.dot(matrice_rotation_3D_Z(90),vecteurmondez)
 Monderotationx = Monderotationx/np.linalg.norm(Monderotationx)
 Monderotationy = Monderotationy/np.linalg.norm(Monderotationy)
 Monderotationz = Monderotationz/np.linalg.norm(Monderotationz)
-print("Vecteur rotation ",Monderotationx,"y",Monderotationy,"z",Monderotationz)
+#print("Vecteur rotation ",Monderotationx,"y",Monderotationy,"z",Monderotationz)
 # Point test 1
-P1 = [371,371,371]
+P1 = [6.5,6.5,6.5]
 
 
 ####
@@ -159,27 +163,28 @@ P1 = [371,371,371]
 # 365 cm longueur du vecteur représentant la focale de la caméra
 
 V1 = np.dot(365,p0)+np.dot(365,p1)+np.dot(365,p2)
-print(V1)
+#print(V1)
 V2 = np.dot(365,Monderotationx[0:3])+np.dot(365,Monderotationy[0:3])+np.dot(365,Monderotationz[0:3])
-print("V2",V2)
+#print("V2",V2)
 ## Quality metric
 # Calcul de l'intersection entre 1 point et 1 vecteur
-print("Croisement ? ",point_on_line(P1,V1,[5,5,5]))
-# Calcul de l'angle entre deux vecteur
-print("Entre V1 et V2",angle_between_vectors(V1,V2))
+# print("Croisement ? ",point_on_line(P1,V1,[5,5,5]))
+# # Calcul de l'angle entre deux vecteur
+# print("Entre V1 et V2",angle_between_vectors(V1,V2))
 # Détermination de l'intersection entre deux vecteur
-intersection_between_vectors(V1,V2,[5,5,5],[6,5,5])
-translation_one = [5,7,5]
+#intersection_between_vectors(V1,V2,[5,5,5],[6,5,5])
+translation_one = [5,5,5]
 translation_two = [8,5,5]
-referential_one = define_rotation_translation(300,translation_one,"Z")
-referential_two = define_rotation_translation(-180,translation_two,"Z")
+referential_one = define_rotation_translation(0,translation_one,"Z")
+referential_two = define_rotation_translation(90,translation_two,"Z")
 print("Ref1",referential_one)
 print("Ref2",referential_two)
 camera_one = Camera(referential_one[0],referential_one[1],referential_one[2],referential_one[3])
 camera_two = Camera(referential_two[0],referential_two[1],referential_two[2],referential_two[3])
 print("Cameraone",camera_one.vector,camera_one.origine)
-print("Angle between cameras",angle_between_vectors(camera_one.vector,camera_two.vector))
-print("Intersection between cameras",intersection_between_vectors(camera_one.vector,camera_two.vector,camera_one.origine,camera_two.origine))
+print("Cameratwo",camera_two.vector,camera_two.origine)
+angle_between_vectors(camera_one.vector,camera_two.vector)
+intersection_between_vectors(camera_one.vector,camera_two.vector,camera_one.origine,camera_two.origine)
 #### Affichage des caméras
 fig = plt.figure(figsize=(6, 4))
 ax = fig.add_subplot(111,projection='3d')
@@ -189,18 +194,33 @@ ax.set_zlabel('Z')
 # set limit
 ax.set(xlim=(-10, 10), ylim=(-10, 10), zlim=(0, 20))
 # For camera 1 
-X1,Y1,Z1 = zip(camera_one.origine, camera_one.origine, camera_one.origine)
-U1,V1,W1 = zip(referential_one[0][0:3],referential_one[1][0:3],referential_one[2][0:3])
-ax.quiver(X1, Y1, Z1, U1, V1, W1, color="blue",
-          arrow_length_ratio=0.01 )
+X1,Y1,Z1 = [camera_one.origine, camera_one.origine, camera_one.origine]
+U1,V1,W1 = [referential_one[0][0:3],referential_one[1][0:3],referential_one[2][0:3]]
+print("X1",X1,"Y1",Y1,"U1",U1,"V1",V1)
+print("U1 quiver : ",referential_one[0][0:3])
+ax.quiver(X1[0], Y1[1], Z1[2], U1[0], U1[1], U1[2], color="red",
+          normalize = True, length = 1, label = 'x')
+ax.quiver(X1[0], Y1[1], Z1[2], V1[0], V1[1], V1[2], color="red",
+          normalize = True, length = 1, label = 'y')
+ax.quiver(X1[0], Y1[1], Z1[2], W1[0], W1[1], W1[2], color="red",
+          normalize = True, length = 1, label = 'z')
 ax.plot([X1[0],U1[0]],[Y1[1],V1[1]],[Z1[2],W1[2]],"r-")
 # For camera 2 
-X, Y, Z = zip(camera_two.origine, camera_two.origine, camera_two.origine)
-print("X",X)
-U, V, W = zip(referential_two[0][0:3],referential_two[1][0:3], referential_two[2][0:3])
+X, Y, Z = [camera_two.origine,camera_two.origine,camera_two.origine]
+print("X",X,"Y",Y,"Z",Z)
+U, V, W = [referential_two[0][0:3],referential_two[1][0:3], referential_two[2][0:3]]
+print("U",U,"V",V,"W",W)
 #print("Monde rotation : ",monderotation[0][0:3])
-ax.quiver(X, Y, Z, U, V, W, color="blue",
-          arrow_length_ratio=0.01 )
-ax.plot([X[0],U[0]],[Y[1],V[1]],[Z[2],W[2]],"g-")
+ax.quiver(X[0], Y[1], Z[2], U[0], U[1], U[2], color="blue",
+          normalize = True, length = 1, label = 'x')
+ax.quiver(X[0], Y[1], Z[2], V[0], V[1], V[2], color="blue",
+          normalize = True, length = 1, label = 'y')
+ax.quiver(X[0], Y[1], Z[2], W[0], W[1], W[2], color="blue",
+          normalize = True, length = 1, label = 'z')
+X_final = U[0]+V[0]+W[0]+365
+Y_final =  U[1]+V[1]+W[1]+365
+Z_final =  U[2]+V[2]+W[2]+365
+print("X_final",X_final)
+ax.plot([X[0],X_final],[Y[1],Y_final],[Z[2],Z_final],"g-")
 ax.scatter(P1[0],P1[1],P1[2],'o')
 plt.show()
