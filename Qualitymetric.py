@@ -100,7 +100,7 @@ def intersection_between_vectors(v1,v2,origine1,origine2):
             return res1
         else:
             print("Pas d'intersection")
-            return False
+            return [0,0,0]
 # Fonction permettant de réaliser une transformation géométrique par rapport au référentiel canonique
 # Retourne les coordonnées de l'origine de la nouvelle base ainsi que les coordonnées des vecteurs unitaires
 # rotation en degrés et translation en array 3D
@@ -185,6 +185,7 @@ print("Cameraone",camera_one.vector,camera_one.origine)
 print("Cameratwo",camera_two.vector,camera_two.origine)
 angle_between_vectors(camera_one.vector,camera_two.vector)
 intersection_between_vectors(camera_one.vector,camera_two.vector,camera_one.origine,camera_two.origine)
+Point_intersect = intersection_between_vectors(camera_one.vector,camera_two.vector,camera_one.origine,camera_two.origine)
 #### Affichage des caméras
 fig = plt.figure(figsize=(6, 4))
 ax = fig.add_subplot(111,projection='3d')
@@ -204,7 +205,7 @@ ax.quiver(X1[0], Y1[1], Z1[2], V1[0], V1[1], V1[2], color="red",
           normalize = True, length = 1, label = 'y')
 ax.quiver(X1[0], Y1[1], Z1[2], W1[0], W1[1], W1[2], color="red",
           normalize = True, length = 1, label = 'z')
-ax.plot([X1[0],U1[0]],[Y1[1],V1[1]],[Z1[2],W1[2]],"r-")
+ax.plot([X1[0],camera_one.vector[0]],[Y1[1],camera_one.vector[1]],[Z1[2],camera_one.vector[2]],"r-")
 # For camera 2 
 X, Y, Z = [camera_two.origine,camera_two.origine,camera_two.origine]
 print("X",X,"Y",Y,"Z",Z)
@@ -221,6 +222,6 @@ X_final = U[0]+V[0]+W[0]+365
 Y_final =  U[1]+V[1]+W[1]+365
 Z_final =  U[2]+V[2]+W[2]+365
 print("X_final",X_final)
-ax.plot([X[0],X_final],[Y[1],Y_final],[Z[2],Z_final],"g-")
-ax.scatter(P1[0],P1[1],P1[2],'o')
+ax.plot([X[0],camera_two.vector[0]],[Y[1],camera_two.vector[1]],[Z[2],camera_two.vector[2]],"g-")
+ax.scatter(Point_intersect[0],Point_intersect[1],Point_intersect[2],'o')
 plt.show()
