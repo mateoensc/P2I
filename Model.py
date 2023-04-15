@@ -53,6 +53,25 @@ angle_between_vectors(camera_five.vector,camera_six.vector)
 intersection_between_vectors(camera_five.vector,camera_six.vector,camera_five.origine,camera_six.origine)
 
 ##########
+# Cost function
+##########
+# Point
+def cost_function():
+    P=[0,0,0]
+    Q=0
+    cameras = [camera_one,camera_two,camera_three,camera_four,camera_five,camera_six]
+    for cam in cameras:
+        new_list = cameras.remove(cam)
+        for cam2 in new_list:
+            if angle_between_vectors(cam.vector,cam2.vector)!=False and intersection_between_vectors(cam.vector,cam2.vector,cam.origine,cam2.origine)!=False:
+                if P == intersection_between_vectors(cam.vector,cam2.vector,cam.origine,cam2.origine):
+                    print("Les deux caméras {cam} et {cam2} respectent la condition de triangulabilité")
+                else:
+                    Q+=angle_between_vectors(cam.vector,cam2.vector)
+            else:
+                print("Les deux caméras ne respectent pas les conditions de quality metric")
+    return Q
+##########
 # Display
 ##########
 fig = plt.figure(figsize=(6, 4))

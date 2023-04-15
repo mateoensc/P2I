@@ -66,7 +66,7 @@ def angle_between_vectors(v1,v2):
     angle = math.degrees(math.acos(cos))
     if angle>=40 and angle <= 140:
         print("angle between vectors in degree",angle)
-        return True
+        return angle
     else:
         print("L'angle ne respecte pas les conditions sur l'angle de convergence")
         return False
@@ -100,7 +100,7 @@ def intersection_between_vectors(v1,v2,origine1,origine2):
             return res1
         else:
             print("Pas d'intersection")
-            return [0,0,0]
+            return False
 # Fonction permettant de réaliser une transformation géométrique par rapport au référentiel canonique
 # Retourne les coordonnées de l'origine de la nouvelle base ainsi que les coordonnées des vecteurs unitaires
 # rotation en degrés et translation en array 3D
