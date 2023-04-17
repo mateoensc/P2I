@@ -18,28 +18,28 @@ translation_one = [5,5,5]
 translation_two = [8,5,5]
 # Camera 1
 referential_one = define_rotation_translation(0,translation_one,"Z")
-camera_one = Camera(referential_one[0],referential_one[1],referential_one[2],referential_one[3])
+camera_one = Camera(referential_one[0],referential_one[1],referential_one[2],referential_one[3],"camera_one")
 # Camera 2
 referential_two = define_rotation_translation(90,translation_two,"Z")
-camera_two = Camera(referential_two[0],referential_two[1],referential_two[2],referential_two[3])
+camera_two = Camera(referential_two[0],referential_two[1],referential_two[2],referential_two[3],"camera_two")
 # Along Y axis
 translation_three = [2,2,5]
 translation_four = [2,2,8]
 # Camera 3
 referential_three = define_rotation_translation(0,translation_three,"Y")
-camera_three = Camera(referential_three[0],referential_three[1],referential_three[2],referential_three[3])
+camera_three = Camera(referential_three[0],referential_three[1],referential_three[2],referential_three[3],"camera_three")
 # Camera 4
 referential_four = define_rotation_translation(90,translation_four,"Y")
-camera_four = Camera(referential_four[0],referential_four[1],referential_four[2],referential_four[3])
+camera_four = Camera(referential_four[0],referential_four[1],referential_four[2],referential_four[3],"camera_four")
 # Along X axis
 translation_five = [4,2,4]
 translation_six = [4,5,4]
 # Camera 5
 referential_five = define_rotation_translation(0,translation_five,"X")
-camera_five = Camera(referential_five[0],referential_five[1],referential_five[2],referential_five[3])
+camera_five = Camera(referential_five[0],referential_five[1],referential_five[2],referential_five[3],"camera_five")
 # Camera 6
 referential_six= define_rotation_translation(90,translation_six,"X")
-camera_six = Camera(referential_six[0],referential_six[1],referential_six[2],referential_six[3])
+camera_six = Camera(referential_six[0],referential_six[1],referential_six[2],referential_six[3],"camera_six")
 
 # Test of position between pairs of cameras
 # C1 and C2
@@ -56,21 +56,35 @@ intersection_between_vectors(camera_five.vector,camera_six.vector,camera_five.or
 # Cost function
 ##########
 # Point
+P=[5.5,3.5,5.5]
 def cost_function():
-    P=[0,0,0]
+   
     Q=0
     cameras = [camera_one,camera_two,camera_three,camera_four,camera_five,camera_six]
+    
     for cam in cameras:
-        new_list = cameras.remove(cam)
+        print("cam",cam)
+        new_list = cameras[:] #Slicing pour créer une copie de la liste cameras
+        new_list.remove(cam)
+        print("new_list",new_list)
         for cam2 in new_list:
+            print("cam2", cam2)
             if angle_between_vectors(cam.vector,cam2.vector)!=False and intersection_between_vectors(cam.vector,cam2.vector,cam.origine,cam2.origine)!=False:
                 if P == intersection_between_vectors(cam.vector,cam2.vector,cam.origine,cam2.origine):
-                    print("Les deux caméras {cam} et {cam2} respectent la condition de triangulabilité")
+                    print(f"Les deux caméras  {cam.name} et {cam2.name} respectent la condition de triangulabilité")
                 else:
+
                     Q+=angle_between_vectors(cam.vector,cam2.vector)
+                    print("Q",Q)
             else:
                 print("Les deux caméras ne respectent pas les conditions de quality metric")
+          
+        
+        
+
+    print("Q",Q)
     return Q
+cost_function()
 ##########
 # Display
 ##########
@@ -158,4 +172,5 @@ ax.quiver(X6[0], Y6[1], Z6[2], W6[0], W6[1], W6[2], color="green",
           normalize = True, length = 1, label = 'z')
 
 ax.plot([X6[0],camera_six.vector[0]],[Y6[1],camera_six.vector[1]],[Z6[2],camera_six.vector[2]],"g-")
+ax.scatter(P[0],P[1],P[2],'o')
 plt.show()

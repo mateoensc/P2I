@@ -128,10 +128,10 @@ def define_rotation_translation(angle,translation,axis):
     return np.array([monderotationx,monderotationy,monderotationz,origine])
 # Création d'une classe représentant les caméras
 class Camera: 
-    def __init__(self,monderotationx,monderotationy,monderotationz,origine,):
+    def __init__(self,monderotationx,monderotationy,monderotationz,origine,name):
         self.origine = origine[0:3]
         self.vector = np.dot(365,monderotationx[0:3])+np.dot(365,monderotationy[0:3])+np.dot(365,monderotationz[0:3])
-        
+        self.name = name
 # Ry = matrice_rotation_3D_Y(20)
 # Rx = matrice_rotation_3D_X(-20)
 # T = matrice_translation_3D(5,5,5)
