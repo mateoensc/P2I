@@ -11,8 +11,13 @@ print("Debut du programme")
 vecteurmondex = [1, 0, 0,0]
 vecteurmondey = [0, 1, 0,0]
 vecteurmondez = [0, 0, 1,0]
+#####
 # Create pairs of cameras wich have a rotation along all the different axis
+#####
+
+##
 # Along Z axis
+##
 # pairs of cameras have only different x positions
 translation_one = [5,5,5]
 translation_two = [8,5,5]
@@ -22,7 +27,9 @@ camera_one = Camera(referential_one[0],referential_one[1],referential_one[2],ref
 # Camera 2
 referential_two = define_rotation_translation(90,translation_two,"Z")
 camera_two = Camera(referential_two[0],referential_two[1],referential_two[2],referential_two[3],"camera_two")
+##
 # Along Y axis
+##
 translation_three = [2,2,5]
 translation_four = [2,2,8]
 # Camera 3
@@ -31,7 +38,9 @@ camera_three = Camera(referential_three[0],referential_three[1],referential_thre
 # Camera 4
 referential_four = define_rotation_translation(90,translation_four,"Y")
 camera_four = Camera(referential_four[0],referential_four[1],referential_four[2],referential_four[3],"camera_four")
+##
 # Along X axis
+##
 translation_five = [4,2,4]
 translation_six = [4,5,4]
 # Camera 5
@@ -58,6 +67,7 @@ intersection_between_vectors(camera_five.vector,camera_six.vector,camera_five.or
 # Point
 P=[5.5,3.5,5.5]
 def cost_function():
+
    
     Q=0
     cameras = [camera_one,camera_two,camera_three,camera_four,camera_five,camera_six]
@@ -81,9 +91,9 @@ def cost_function():
           
         
         
-
-    print("Q",Q)
-    return Q
+    # Avoid sum twice for one section 
+    print("Q",Q/2)
+    return Q/2
 cost_function()
 ##########
 # Display
@@ -98,7 +108,7 @@ ax.set(xlim=(-10, 10), ylim=(-10, 10), zlim=(0, 20))
 # For camera 1 
 X1,Y1,Z1 = [camera_one.origine, camera_one.origine, camera_one.origine]
 U1,V1,W1 = [referential_one[0][0:3],referential_one[1][0:3],referential_one[2][0:3]]
-
+# plot the new 3 axis with ax.quiver
 ax.quiver(X1[0], Y1[1], Z1[2], U1[0], U1[1], U1[2], color="red",
           normalize = True, length = 1, label = 'x')
 ax.quiver(X1[0], Y1[1], Z1[2], V1[0], V1[1], V1[2], color="red",

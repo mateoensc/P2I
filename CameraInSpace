@@ -3,13 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import math
-# get axis unit vector from dcm rows
-# def get_vector_from_dcm(dcm, axis, o, label, color):
-#     """
-#     dcm: direction cosine matrix (3x3 numpy array)
-#     axis: basis vector to extract (0 = x, 1 = y, 2 = z)
-#     """
-#     return Vector3D(dcm[axis, :][0], dcm[axis, :][1], dcm[axis, :][2], origin=o, text=label, color=color)
+
 # Coordonnées de l'origine
 world_origin = np.zeros(3)
 # Vecteurs de la base du monde
@@ -19,8 +13,6 @@ t = np. array([3, -4, 2])
 p0 = [1, 0, 0]
 p1 = [0, 1, 0]
 p2 = [0, 0, 1]
-# Matrice de rotation R
-
 
 def Matrice_Rotation_2D(teta):
     return np.array([[math.cos(teta), -math.sin(teta)], [math.sin(teta), math.cos(teta)]])
@@ -79,25 +71,16 @@ print("Vecteur rotation ",monderotationx,"y",monderotationy,"z",monderotationz)
 intermediate = np.dot(Ry,Pmonde)
 Pcamera = np.dot(T,intermediate)
 print("Pc :",Pcamera)
-#fig = plt.figure()
-# Crée le plan de la figure en mode 3D
-#ax = fig.add_subplot(111, projection='3d')
-# Need matplotlib
-# Plot a 2D/3D field of arrow X,Y,Z defines the arrow location
-# U,V,W defines the arrow direction [C] define the color
-# Create a translation
-# U1, V1, W1 = zip(origine+t, origine+t, origine+t)
-# ax.quiver(X, Y, Z, U, V, W, color="red",
-#           arrow_length_ratio=0.01)
-# ax.quiver(U1, V1, W1, U, V, W, color="blue", arrow_length_ratio=0.01)
 
 # define axis and figure
 fig = plt.figure(figsize=(6, 4))
+# Crée le plan de la figure en mode 3D
 ax = fig.add_subplot(111,projection='3d')
 
 # set limit
 ax.set(xlim=(-10, 10), ylim=(-10, 10), zlim=(0, 20))
 
+#############
 # Monde
 #############
 #Caméra 1
@@ -105,7 +88,8 @@ ax.set(xlim=(-10, 10), ylim=(-10, 10), zlim=(0, 20))
 X, Y, Z = zip(monde[0:3], monde[0:3], monde[0:3])
 print("X",X)
 U, V, W = zip(monderotationx[0:3],monderotationy[0:3], monderotationz[0:3])
-#print("Monde rotation : ",monderotation[0][0:3])
+# Plot a 2D/3D field of arrow X,Y,Z defines the arrow location
+# U,V,W defines the arrow direction [C] define the color
 ax.quiver(X, Y, Z, U, V, W, color="blue",
           arrow_length_ratio=0.01 )
 ax.plot([X[0],U[0]+X[0]+10],[Y[1],V[1]+Y[1]+10],[Z[2],W[2]+Z[2]+10],"g-")

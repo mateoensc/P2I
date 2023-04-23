@@ -28,6 +28,14 @@ def matrice_rotation_3D_Z(teta):
 def matrice_translation_3D(Tx, Ty, Tz):
     return np.array([[1, 0, 0, Tx], [0, 1, 0, Ty], [0, 0, 1, Tz], [0, 0, 0, 1]])
 def point_on_line(p, v,origine):
+    """
+    The function takes in three parameters, a point, a vector, and an origin, and returns whether the
+    point lies on the line defined by the vector and origin.
+    
+    :param p: A point on the line (as a tuple or list of coordinates)
+    :param v: A list or tuple representing the vector in 2D or 3D space
+    :param origine: A list or tuple representing the origin of the vector
+    """
     # On cherche à résoudre
     # p = q + t*v
     # Coordonnées du point
@@ -56,6 +64,12 @@ def point_on_line(p, v,origine):
     else:
         return False
 def angle_between_vectors(v1,v2):
+    """
+    The function takes in two vectors and returns the angle between them.
+    
+    :param v1: A list or tuple representing the first vector in 2D or 3D space
+    :param v2: A list or tuple representing the first vector in 2D or 3D space
+    """
 # V1 et V2 coordoonées du vecteur dans leur bases respectives
 # Calcul de l'angle entre ces deux vecteurs
     produitscalaire = np.dot(v1,v2)
@@ -102,10 +116,21 @@ def intersection_between_vectors(v1,v2,origine1,origine2):
             print("Pas d'intersection")
             return False
 # Fonction permettant de réaliser une transformation géométrique par rapport au référentiel canonique
-# Retourne les coordonnées de l'origine de la nouvelle base ainsi que les coordonnées des vecteurs unitaires
+# Retourne les coordonnées de l'origine de la nouvelle base ainsi que les coordonnées des vecteurs unitaires de la base
 # rotation en degrés et translation en array 3D
 # axis en str pour déterminer selon quels axes
 def define_rotation_translation(angle,translation,axis):
+    """
+    This function is intended to define a rotation and translation operation in three-dimensional space
+    given an angle, translation vector, and axis of rotation.
+    
+    :param angle: The angle of rotation in degrees
+    :param translation: A list or tuple of three values representing the translation vector in x, y, and
+    z directions respectively
+    :param axis: The axis parameter specifies the axis of rotation or translation. It can be either "x",
+    "y", or "z" for the x-axis, y-axis, or z-axis respectively
+    Returns the coordinates of the origin of the frame of reference and the coordinates of the unit vectors
+    """
     if axis == "X":
             monderotationx = np.dot(matrice_rotation_3D_X(angle),vecteurmondex)
             monderotationy = np.dot(matrice_rotation_3D_X(angle),vecteurmondey)
@@ -126,102 +151,11 @@ def define_rotation_translation(angle,translation,axis):
     monderotationz = monderotationz/np.linalg.norm(monderotationz)
     origine = np.dot(matrice_translation_3D(translation[0],translation[1],translation[2]),[0,0,0,1])
     return np.array([monderotationx,monderotationy,monderotationz,origine])
+
 # Création d'une classe représentant les caméras
 class Camera: 
     def __init__(self,monderotationx,monderotationy,monderotationz,origine,name):
         self.origine = origine[0:3]
         self.vector = np.dot(365,monderotationx[0:3])+np.dot(365,monderotationy[0:3])+np.dot(365,monderotationz[0:3])
         self.name = name
-# Ry = matrice_rotation_3D_Y(20)
-# Rx = matrice_rotation_3D_X(-20)
-# T = matrice_translation_3D(5,5,5)
-# # Camera 1
-# # TR = np.dot(T,Ry)
-# # print("TR:",TR)
-# # C1 = np.dot(TR,origine)
-# C1 = np.dot(T,origine)
-# #print(C1)
 
-# # Camera 2
-# PC2 = np.array([6,5,5,1])
-
-# Monderotationx = np.dot(matrice_rotation_3D_Z(90),vecteurmondex)
-# Monderotationy = np.dot(matrice_rotation_3D_Z(90),vecteurmondey)
-# Monderotationz = np.dot(matrice_rotation_3D_Z(90),vecteurmondez)
-# # Test normalisation du vecteur 
-# Monderotationx = Monderotationx/np.linalg.norm(Monderotationx)
-# Monderotationy = Monderotationy/np.linalg.norm(Monderotationy)
-# Monderotationz = Monderotationz/np.linalg.norm(Monderotationz)
-# #print("Vecteur rotation ",Monderotationx,"y",Monderotationy,"z",Monderotationz)
-# # Point test 1
-# P1 = [6.5,6.5,6.5]
-
-
-# ####
-# # Calcul de l'angle entre deux vecteurs caméra 1 et 2 
-# # Coordoonées du vecteur 1
-# # 365 cm longueur du vecteur représentant la focale de la caméra
-
-# V1 = np.dot(365,p0)+np.dot(365,p1)+np.dot(365,p2)
-# #print(V1)
-# V2 = np.dot(365,Monderotationx[0:3])+np.dot(365,Monderotationy[0:3])+np.dot(365,Monderotationz[0:3])
-# #print("V2",V2)
-# ## Quality metric
-# # Calcul de l'intersection entre 1 point et 1 vecteur
-# # print("Croisement ? ",point_on_line(P1,V1,[5,5,5]))
-# # # Calcul de l'angle entre deux vecteur
-# # print("Entre V1 et V2",angle_between_vectors(V1,V2))
-# # Détermination de l'intersection entre deux vecteur
-# #intersection_between_vectors(V1,V2,[5,5,5],[6,5,5])
-# translation_one = [5,5,5]
-# translation_two = [8,5,5]
-# referential_one = define_rotation_translation(0,translation_one,"Z")
-# referential_two = define_rotation_translation(90,translation_two,"Z")
-# print("Ref1",referential_one)
-# print("Ref2",referential_two)
-# camera_one = Camera(referential_one[0],referential_one[1],referential_one[2],referential_one[3])
-# camera_two = Camera(referential_two[0],referential_two[1],referential_two[2],referential_two[3])
-# print("Cameraone",camera_one.vector,camera_one.origine)
-# print("Cameratwo",camera_two.vector,camera_two.origine)
-# angle_between_vectors(camera_one.vector,camera_two.vector)
-# intersection_between_vectors(camera_one.vector,camera_two.vector,camera_one.origine,camera_two.origine)
-# Point_intersect = intersection_between_vectors(camera_one.vector,camera_two.vector,camera_one.origine,camera_two.origine)
-# #### Affichage des caméras
-# fig = plt.figure(figsize=(6, 4))
-# ax = fig.add_subplot(111,projection='3d')
-# ax.set_xlabel('X')
-# ax.set_ylabel('Y')
-# ax.set_zlabel('Z')
-# # set limit
-# ax.set(xlim=(-10, 10), ylim=(-10, 10), zlim=(0, 20))
-# # For camera 1 
-# X1,Y1,Z1 = [camera_one.origine, camera_one.origine, camera_one.origine]
-# U1,V1,W1 = [referential_one[0][0:3],referential_one[1][0:3],referential_one[2][0:3]]
-# print("X1",X1,"Y1",Y1,"U1",U1,"V1",V1)
-# print("U1 quiver : ",referential_one[0][0:3])
-# ax.quiver(X1[0], Y1[1], Z1[2], U1[0], U1[1], U1[2], color="red",
-#           normalize = True, length = 1, label = 'x')
-# ax.quiver(X1[0], Y1[1], Z1[2], V1[0], V1[1], V1[2], color="red",
-#           normalize = True, length = 1, label = 'y')
-# ax.quiver(X1[0], Y1[1], Z1[2], W1[0], W1[1], W1[2], color="red",
-#           normalize = True, length = 1, label = 'z')
-# ax.plot([X1[0],camera_one.vector[0]],[Y1[1],camera_one.vector[1]],[Z1[2],camera_one.vector[2]],"r-")
-# # For camera 2 
-# X, Y, Z = [camera_two.origine,camera_two.origine,camera_two.origine]
-# print("X",X,"Y",Y,"Z",Z)
-# U, V, W = [referential_two[0][0:3],referential_two[1][0:3], referential_two[2][0:3]]
-# print("U",U,"V",V,"W",W)
-# #print("Monde rotation : ",monderotation[0][0:3])
-# ax.quiver(X[0], Y[1], Z[2], U[0], U[1], U[2], color="blue",
-#           normalize = True, length = 1, label = 'x')
-# ax.quiver(X[0], Y[1], Z[2], V[0], V[1], V[2], color="blue",
-#           normalize = True, length = 1, label = 'y')
-# ax.quiver(X[0], Y[1], Z[2], W[0], W[1], W[2], color="blue",
-#           normalize = True, length = 1, label = 'z')
-# X_final = U[0]+V[0]+W[0]+365
-# Y_final =  U[1]+V[1]+W[1]+365
-# Z_final =  U[2]+V[2]+W[2]+365
-# print("X_final",X_final)
-# ax.plot([X[0],camera_two.vector[0]],[Y[1],camera_two.vector[1]],[Z[2],camera_two.vector[2]],"g-")
-# ax.scatter(Point_intersect[0],Point_intersect[1],Point_intersect[2],'o')
-# plt.show()
